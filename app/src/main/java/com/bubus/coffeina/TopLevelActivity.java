@@ -23,7 +23,7 @@ public class TopLevelActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        }
+        };
 
         // Dodajemy obiekt nasłuchujący do widoku listy
         ListView listView = (ListView) findViewById(R.id.list_options);

@@ -6,4 +6,5 @@
         <item>Przekąski</item>
         <item>Kafeteria</item>
     </string-array>
+    <string name="title_activity_drink_category">Napoje</string>
 </resources>
