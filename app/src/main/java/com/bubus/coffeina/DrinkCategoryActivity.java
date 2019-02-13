@@ -3,6 +3,7 @@ package com.bubus.coffeina;
 import android.app.ListActivity;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
@@ -15,6 +16,7 @@ import android.widget.ListView;
 import android.view.View;
 import android.content.Intent;
 import android.widget.SimpleCursorAdapter;
+import android.widget.Toast;
 
 
 public class DrinkCategoryActivity extends ListActivity {
@@ -42,8 +44,9 @@ public class DrinkCategoryActivity extends ListActivity {
             );
             listDrink.setAdapter(listAdapter);
 
-        }catch (){
-
+        }catch (SQLException e){
+            Toast toast = Toast.makeText(this, "Baza danych jest niedostępna", Toast.LENGTH_SHORT);
+            toast.show();
         }
 
 
