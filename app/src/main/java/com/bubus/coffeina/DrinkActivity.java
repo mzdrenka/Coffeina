@@ -31,9 +31,8 @@ public class DrinkActivity extends Activity {
             SQLiteOpenHelper coffeinaDatabaseHelper = new CoffeinaDatabaseHelper(this);
             SQLiteDatabase db = coffeinaDatabaseHelper.getReadableDatabase();
             Cursor cursor = db.query ("DRINK",
-                    new String[] {"NAME", "DESCRIPTION",
-                    "IMAGE_RESOURCE_ID"},
-                    "id = ?",
+                    new String[] {"NAME", "DESCRIPTION", "IMAGE_RESOURCE_ID", "FAVORITE"},
+                    "_id = ?",
                      new String[] {Integer.toString(drinkNo)},
                     null, null,null);
             // Przechodzimy do pierwszego rekordu w kursorze
@@ -42,7 +41,8 @@ public class DrinkActivity extends Activity {
                 String nameText = cursor.getString(0);
                 String descriptionText = cursor.getString(1);
                 int photoId = cursor.getInt(2);
-                // Wyświetlamy nazwę napoju
+
+                        // Wyświetlamy nazwę napoju
                 TextView name = (TextView)findViewById(R.id.name);
                 name.setText(nameText);
                 // Wyświetlamy opis napoju
@@ -53,11 +53,14 @@ public class DrinkActivity extends Activity {
                 ImageView photo = (ImageView)findViewById(R.id.photo);
                 photo.setImageResource(photoId);
                 photo.setContentDescription(nameText);
+
+                // Pobranie czy ulubiony
             }
+
             cursor.close();
             db.close();
         } catch(SQLiteException e) {
-            Toast toast = Toast.makeText(this, "Baza danych jest niedostępna",
+            Toast toast = Toast.makeText(this,  e.getMessage(),
                     Toast.LENGTH_SHORT);
             toast.show();
         }

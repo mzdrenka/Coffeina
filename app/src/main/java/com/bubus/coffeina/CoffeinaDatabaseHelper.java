@@ -1,21 +1,17 @@
 package com.bubus.coffeina;
 
 import android.content.ContentValues;
-import android.database.sqlite.SQLiteOpenHelper;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
+import android.database.sqlite.SQLiteOpenHelper;
 
 class CoffeinaDatabaseHelper extends SQLiteOpenHelper {
 
-    private static final String DB_NAME = "coffeina"; //nazwa bazy danych
-    private static final int DB_VERSION = 2; //numer wersji
+    private static final String DB_NAME = "coffeina"; // Nazwa bazy danych
+    private static final int DB_VERSION = 2; // Numer wersji bazy danych
 
-
-    @RequiresApi(api = Build.VERSION_CODES.P)
     CoffeinaDatabaseHelper(Context context) {
-        super(context, DB_NAME, DB_VERSION, null);
+        super(context, DB_NAME, null, DB_VERSION);
     }
 
     @Override
@@ -28,21 +24,23 @@ class CoffeinaDatabaseHelper extends SQLiteOpenHelper {
         updateMyDatabase(db, oldVersion, newVersion);
     }
 
-    private static void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion){
-        if (oldVersion < 1){
-            db.execSQL("CREATE TABLE DRINK (_id INTEGER PRIMARY KEY AUTOINCREMENT" +
-                    ", NAME TEXT" +
-                    ", DESCRIPTION TEXT" +
-                    ", IMAGE_RESOURCE_ID INTEGER);");
+    private void updateMyDatabase(SQLiteDatabase db, int oldVersion, int newVersion) {
+        if (oldVersion < 1) {
+            db.execSQL("CREATE TABLE DRINK (_id INTEGER PRIMARY KEY AUTOINCREMENT, "
+                    + "NAME TEXT, "
+                    + "DESCRIPTION TEXT, "
+                    + "IMAGE_RESOURCE_ID INTEGER);");
             insertDrink(db, "Latte", "Czarne espresso z gorącym mlekiem i mleczną pianką.", R.drawable.latte);
-            insertDrink(db, "Cappucino", "Czarne espresso z dużą ilością spienionego mleka..", R.drawable.cappuccino);
+            insertDrink(db, "Cappuccino", "Czarne espresso z dużą ilością spienionego mleka.",R.drawable.cappuccino);
             insertDrink(db, "Espresso", "Czarna kawa ze świeżo mielonych ziaren najwyższej jakości.", R.drawable.filter);
-        } if (oldVersion < 2) {
+        }
+        if (oldVersion < 2) {
             db.execSQL("ALTER TABLE DRINK ADD COLUMN FAVORITE NUMERIC;");
         }
     }
 
-    private static void insertDrink(SQLiteDatabase db, String name, String description, int resourceId){
+    private static void insertDrink(SQLiteDatabase db, String name,
+                                    String description, int resourceId) {
         ContentValues drinkValues = new ContentValues();
         drinkValues.put("NAME", name);
         drinkValues.put("DESCRIPTION", description);

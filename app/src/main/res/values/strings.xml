@@ -1,10 +1,11 @@
 <resources>
     <string name="app_name">Coffeina</string>
     <string name="starbuzz_logo">Logo kafeterii Coffeina</string>
+    <string name="title_activity_drink_category">Napoje</string>
+    <string name="favorite">Ulubione</string>
     <string-array name="options">
         <item>Napoje</item>
         <item>Przekąski</item>
-        <item>Kafeteria</item>
+        <item>Kafeterie</item>
     </string-array>
-    <string name="title_activity_drink_category">Napoje</string>
 </resources>
