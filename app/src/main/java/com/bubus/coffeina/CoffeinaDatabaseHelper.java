@@ -14,7 +14,7 @@ class CoffeinaDatabaseHelper extends SQLiteOpenHelper {
 
 
     @RequiresApi(api = Build.VERSION_CODES.P)
-    public CoffeinaDatabaseHelper(Context context, String name, int version, SQLiteDatabase.OpenParams openParams) {
+    CoffeinaDatabaseHelper(Context context) {
         super(context, DB_NAME, DB_VERSION, null);
     }
 
