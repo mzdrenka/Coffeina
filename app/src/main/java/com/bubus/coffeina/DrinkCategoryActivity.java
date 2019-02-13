@@ -40,7 +40,7 @@ public class DrinkCategoryActivity extends ListActivity {
                     new int[] {android.R.id.text1},
                     0
             );
-            listD
+            listDrink.setAdapter(listAdapter);
 
         }catch (){
 
