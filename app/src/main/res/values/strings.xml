@@ -3,6 +3,7 @@
     <string name="starbuzz_logo">Logo kafeterii Coffeina</string>
     <string name="title_activity_drink_category">Napoje</string>
     <string name="favorite">Ulubione</string>
+    <string name="favorites">Twoje ulubione napoje</string>
     <string-array name="options">
         <item>Napoje</item>
         <item>Przekąski</item>
