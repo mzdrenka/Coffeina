@@ -30,9 +30,9 @@ public class DrinkActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_drink);
-     // Pobieramy identyfikator napoju z intencji
+        // Pobieramy identyfikator napoju z intencji
         int drinkNo = (Integer)getIntent().getExtras().get(EXTRA_DRINKNO);
-     // Tworzymy kursor.
+        // Tworzymy kursor.
         try {
             SQLiteOpenHelper coffeinaDatabaseHelper = new CoffeinaDatabaseHelper(this);
             SQLiteDatabase db = coffeinaDatabaseHelper.getReadableDatabase();
@@ -105,16 +105,14 @@ public class DrinkActivity extends Activity {
             }
         }
 
-        protected void onPostExecuted(Boolean success){
-            if(success){
+        protected void onPostExecute(Boolean success){
+            if(!success){
                 Toast toast = Toast.makeText(DrinkActivity.this,"Baza danych jest niedostępna", Toast.LENGTH_SHORT);
                 toast.show();
-            }else if(!success){
+            }else if(success){
                 Toast toast = Toast.makeText(DrinkActivity.this,"Baza danych zaaktualizowana", Toast.LENGTH_SHORT);
                 toast.show();
             }
         }
     }
-
-
 }
