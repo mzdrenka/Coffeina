@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.database.SQLException;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -72,26 +73,48 @@ public class DrinkActivity extends Activity {
             toast.show();
         }
     }
-
     // Aktualizujemy bazę danych po kliknięciu pola wyboru
     public void onFavoriteClicked(View view){
 
         int drinkNo = (Integer)getIntent().getExtras().get(EXTRA_DRINKNO);
-        CheckBox favorite = findViewById(R.id.favorite);
-        ContentValues drinkValues = new ContentValues();
-        drinkValues.put("FAVORITE", favorite.isChecked());
-        SQLiteOpenHelper coffeinaDatabaseHelper = new CoffeinaDatabaseHelper(DrinkActivity.this);
-        try {
-            SQLiteDatabase db = coffeinaDatabaseHelper.getWritableDatabase();
-            db.update(
-                    "DRINK",
-                    drinkValues,
-                    "_id = ?",
-                    new String[]{Integer.toString(drinkNo)});
-            db.close();
-        }catch (SQLException e){
-            Toast toast = Toast.makeText(this, "Baza danych jest niedostępna",Toast.LENGTH_SHORT);
-            toast.show();
+        new UpdateDrinkTask().execute(drinkNo);
+    }
+
+    private class UpdateDrinkTask extends AsyncTask<Integer, Void, Boolean> {
+        ContentValues drinkValues;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            CheckBox favorite = (CheckBox)findViewById(R.id.favorite);
+            drinkValues = new ContentValues();
+            drinkValues.put("FAVORITE", favorite.isChecked());
+        }
+
+        protected Boolean doInBackground(Integer... drinks){
+            int drinkNo = drinks[0];
+            SQLiteOpenHelper coffeinaDatabaseHelper = new CoffeinaDatabaseHelper(DrinkActivity.this);
+            try{
+                SQLiteDatabase db = coffeinaDatabaseHelper.getWritableDatabase();
+                db.update("DRINK", drinkValues,
+                        "_id = ?", new String[] {Integer.toString(drinkNo)});
+                db.close();
+                return true;
+            }catch (SQLiteException e){
+                return false;
+            }
+        }
+
+        protected void onPostExecuted(Boolean success){
+            if(success){
+                Toast toast = Toast.makeText(DrinkActivity.this,"Baza danych jest niedostępna", Toast.LENGTH_SHORT);
+                toast.show();
+            }else if(!success){
+                Toast toast = Toast.makeText(DrinkActivity.this,"Baza danych zaaktualizowana", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
+
+
 }
